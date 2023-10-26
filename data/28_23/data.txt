@@ -1,0 +1,32 @@
+FIR Number: 
+FIR Date: 
+Incident Date: 
+Incident Time: 
+State / Territory: 
+District : 
+Police station : 
+
+SUSPECT DETAILS:-
+Suspect Name: Akshat Bhardwaj
+Suspect Alias Name: 
+Suspect Phone Number: 09528121505
+Suspect IMEI Number: 23786742515412
+Crime Category: 
+Crime sub-Category: 
+Crime Place: 
+Crime State: Uttarakhand
+
+BANKING DETAILS:-
+Bank Name: 
+Bank IFSC Number: 
+Bank Branch: 
+Bank City: 
+Bank State: 
+Account Number: 238974296751255
+Account Holder's Name: 
+Crypto Account Number: 
+Crypto Account Name: 
+
+ADDITIONAL DETAILS:-
+Description : 
+suspect_upload : 

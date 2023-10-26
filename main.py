@@ -141,6 +141,12 @@ def criminal_report():
 
 @app.route('/submit', methods=['POST'])
 def submit():
+
+    folder_name = request.form.get('folder_name')
+    if folder_name is None:
+        return "Folder created successfully."
+    folder_name = folder_name.replace('/', '_')
+
     # Retrieve data from the form
     folder_name = request.form.get('folder_name').replace('/', '_')
     fir_no = request.form.get('fir_no')
@@ -214,6 +220,32 @@ def submit():
             file.write("\nADDITIONAL DETAILS:-\n")
             file.write(f"Description : {description}\n")
             file.write(f"suspect_upload : {suspect_upload}\n")
+
+        # Create a DataFrame for each field
+        phone_data = {
+            "Suspect Phone Number": [suspect_phone]
+        }
+        df_phone = pd.DataFrame(phone_data)
+
+        account_data = {
+            "Account Number": [account_number]
+        }
+        df_account = pd.DataFrame(account_data)
+
+        imei_data = {
+            "Suspect IMEI Number": [suspect_imei]
+        }
+        df_imei = pd.DataFrame(imei_data)
+
+        # Define the file paths for each Excel file
+        phone_file_path = os.path.join(folder_path, 'phone_data.xlsx')
+        account_file_path = os.path.join(folder_path, 'account_data.xlsx')
+        imei_file_path = os.path.join(folder_path, 'imei_data.xlsx')
+
+        # Write each DataFrame to its respective Excel file
+        df_phone.to_excel(phone_file_path, index=False)
+        df_account.to_excel(account_file_path, index=False)
+        df_imei.to_excel(imei_file_path, index=False)
 
         # return render_template('crime_report.html')
         return f"Form submitted successfully. Folder Name: {folder_display_name}"
