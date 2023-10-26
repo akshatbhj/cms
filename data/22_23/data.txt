@@ -1,0 +1,28 @@
+FIR Number: 000002
+FIR Date: 2023-10-24
+Incident Date: 2023-10-23
+Incident Time: 23:25:35
+State / Territory: Uttarakhand
+District : Dehradun
+Police station : Clement Town
+SUSPECT DETAILS:-
+Suspect Name: Akshat Bhardwaj
+Suspect Alias Name: 
+Suspect Phone Number: 09528121505
+Suspect IMEI Number: 353637454647
+Crime Category: malware
+Crime sub-Category: hacking
+Crime Place: House
+Crime State: Uttarakhand
+BANKING DETAILS:-
+Bank Name: Punjab National Bank
+Bank IFSC Number: PUNB0873900
+Bank Branch: Fulsungi
+Bank City: Rudrapur
+Bank State: Uttarakhand
+Account Number: 8739000100009276
+Account Holder's Name: Akshat Bhardwaj
+Crypto Account Number: 
+Crypto Account Name: 
+ADDITIONAL DETAILS:-
+Description : Most wanted, please find him as soon as possible.

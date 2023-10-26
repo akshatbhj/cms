@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login - CyberrCon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="static/Image/Uttarakhand_Police_Logo.png"
+    />
+    <style>
+      .login-container {
+        background-image: url("{{ url_for('static', filename='Image/bg.jpg') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    </style>
+    <script
+      src="https://kit.fontawesome.com/7bda016311.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="overflow-hidden">
+    <!-- Horizontal Navbar -->
+    <div class="bg-blue-800 text-white flex justify-between items-center p-4">
+      <div>
+        <!-- Logo or Image on the Left -->
+        <a href="/login">
+          <img
+            src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+            alt="Logo"
+            class="w-12 h-12"
+          />
+        </a>
+      </div>
+      <div>
+        <!-- Centered Text -->
+        <p class="text-xl font-semibold letter-spacing-2">
+          Cybercrime Resource Control [ CyberrCon ]
+        </p>
+      </div>
+      <div>
+        <!-- Logo or Image on the Right -->
+        <a href="/login">
+          <img
+            src="{{url_for('static', filename='Image/CyberrCon_only-removebg-preview.png')}}"
+            alt="Logo"
+            class="w-12 h-12"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="bg-gray-900 text-white min-h-screen flex items-center justify-center login-container"
+    >
+      <div class="w-full max-w-xs mb-40">
+        <!-- Login form goes here -->
+        <form
+          method="POST"
+          action="{{url_for('login')}}"
+          class="bg-opacity-40 bg-black backdrop-blur-0 border border-opacity-54 border-white/2 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
+          <div class="text-center mb-4">
+            <h1 class="text-2xl font-bold">Login</h1>
+          </div>
+          {% if not login_successful %}
+          <p
+            class="text-red-600 p-1 bg-opacity-80 font-bold bg-white text-center rounded text-sm mb-2"
+          >
+            Incorrect!! username or password.
+          </p>
+          {% endif %}
+          <div class="mb-4">
+            <!-- <label for="username">Username:</label> -->
+            <input
+              class="bg-white bg-opacity-25 text-white placeholder-white shadow appearance-none border rounded w-full py-2 px-3 my-2 leading-tight focus:outline-none focus:shadow-outline"
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Username"
+              autocomplete="off"
+              required
+            />
+            <br />
+            <!-- <label for="password">Password:</label> -->
+            <input
+              class="bg-white bg-opacity-25 text-white placeholder-white shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+            <br />
+          </div>
+          <div class="flex items-center justify-between">
+            <button
+              class="bg-blue-500 bg-opacity-95 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Enter
+              <i
+                class="fa-solid fa-right-to-bracket ml-1"
+                style="color: #ffffff"
+              ></i>
+            </button>
+          </div>
+        </form>
+        <p class="ml-10 text-sm font-bold">
+          Powered by CyberrCon Technologies.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

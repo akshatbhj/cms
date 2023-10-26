@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberrCon</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="static/Image/Uttarakhand_Police_Logo.png"
+      type="image/x-icon"
+    />
+    <style>
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        /* background-color: rgb(30, 64, 175); */
+        background-color: rgb(31 41 55);
+        color: white;
+        width: 250px; /* Set the desired width of the navbar */
+      }
+
+      .content {
+        margin-left: 220px; /* Adjust this margin to keep the content next to the navbar */
+        padding: 20px;
+      }
+
+      .custom-button {
+        background-color: #2c3e50;
+        /* Initial background color */
+        /* Add other button styles as needed */
+      }
+    </style>
+  </head>
+  <body class="bg-blue-800">
+    <!-- Navbar -->
+    <div class="bg-gray-800 text-white p-4 z-10">
+      <div class="flex items-center justify-between">
+        <!-- Left Section (Logo) -->
+        <div class="flex items-center">
+          <img
+            src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+            alt="Logo"
+            class="h-8 w-8"
+          />
+        </div>
+
+        <!-- Middle Section (Text) -->
+        <span class="text-lg">Cybercrime Resource Control [CyberrCon]</span>
+
+        <!-- Right Section (User Profile) -->
+        <div class="flex items-center">
+          <span class="ml-2">{{ username }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vertical Navbar with full screen height -->
+    <div class="navbar">
+      <div class="flex items-center p-4">
+        <img
+          src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+          alt="Logo"
+          class="h-8 w-8"
+        />
+      </div>
+      <ul class="space-y-0 pt-0 bg-gray-800">
+        <li
+          class="border-solid border-t border-b border-white p-3 hover:bg-gray-700"
+        >
+          <a href="{{ url_for('index') }}"
+            ><i class="fa-solid fa-house mr-4 ml-0.5" style="color: #ffffff"></i
+            >Home</a
+          >
+        </li>
+        <li
+          class="border-solid border-b border-white p-3 hover:bg-gray-700 bg-gray-800"
+        >
+          <a href="{{ url_for('crime_report') }}"
+            ><i
+              class="fa-solid fa-file-circle-plus mr-3 ml-1"
+              style="color: #ffffff"
+            ></i>
+            Add Crime Report</a
+          >
+        </li>
+        <li
+          class="custom-button border-solid border-b border-white p-3 hover:bg-gray-700 bg-gray-800"
+        >
+          <a href="{{ url_for('criminal_report') }}"
+            ><i
+              class="fa-solid fa-user-plus mr-3 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Add Criminal Profile</a
+          >
+        </li>
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+          <a href="{{ url_for('index') }}"
+            ><i
+              class="fa-solid fa-magnifying-glass mr-4 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Search Database</a
+          >
+        </li>
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+          <a href="{{ url_for('folders') }}"
+            ><i
+              class="fa-solid fa-folder mr-4 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Case Folders</a
+          >
+        </li>
+        <!-- Add more options as needed -->
+        {% include 'logout.html' %}
+        <!-- Logout button inside the vertical navbar -->
+        {% if username == 'admin' %}
+        <li
+          class="border-solid border-b border-white p-3 py-2 hover:bg-gray-700"
+        >
+          <a href="{{ url_for('create_user') }}"
+            ><i class="fa-solid fa-plus mr-4 ml-0.5" style="color: #ffffff"></i>
+            Create New User
+          </a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="w-3/4 mx-auto p-5 bg-white rounded">
+        <form
+          action="/submit_criminal"
+          method="POST"
+          id="criminalForm"
+          enctype="multipart/form-data"
+        >
+          <legend class="text-lg font-semibold mb-4">General Details</legend>
+          <div class="w-full flex items-center justify-start mb-4">
+            <div class="bg-white shadow-md p-2 w-40">
+              <h1 class="text-xs mb-4 text-center">Passport Size Photo</h1>
+              <input
+                type="file"
+                id="photo-input"
+                accept="image/*"
+                name="photo"
+                class="w-full text-xs p-1 border rounded mb-2"
+                onchange="displayImage(this)"
+              />
+              <div id="image-container" class="mt-4 flex justify-center">
+                <img
+                  id="uploaded-photo"
+                  width="200"
+                  height="450"
+                  style="display: none"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-x-4">
+            <div class="mb-4">
+              <label for="criminal-name" class="font-medium text-gray-600"
+                >Full Name*</label
+              >
+              <input
+                type="text"
+                id="criminal-name"
+                name="criminal-name"
+                class="form-input w-full border border-black px-2 py-0.5"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="criminal-name-alias" class="font-medium text-gray-600"
+                >Alias Name*</label
+              >
+              <input
+                type="text"
+                id="criminal-name-alias"
+                name="criminal-name-alias"
+                class="form-input w-full border border-black px-2 py-0.5"
+                required
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-x-4">
+            <div class="mb-4">
+              <label for="criminal-fh-name" class="font-medium text-gray-600"
+                >Father/Husband Name*</label
+              >
+              <input
+                type="text"
+                id="criminal-fh-name"
+                name="criminal-fh-name"
+                class="form-input w-full border border-black px-2 py-0.5"
+                required
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="mb-4 w-full">
+              <label for="criminal-dob" class="font-medium text-gray-600"
+                >Date of Birth*</label
+              >
+              <input
+                type="date"
+                id="criminal-dob"
+                name="criminal-dob"
+                class="form-input w-full border border-black px-2 py-0.5"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Age gender and work -->
+          <div class="grid grid-cols-3 gap-x-2">
+            <div class="mb-4">
+              <label for="criminal-age" class="font-medium text-gray-600"
+                >Age</label
+              >
+              <input
+                type="number"
+                id="criminal-age"
+                name="criminal-age"
+                class="form-input w-full border border-black px-2 py-0.5"
+                autocomplete="off"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="criminal-occupation" class="font-medium text-gray-600"
+                >Occupation</label
+              >
+              <select
+                name="criminal-occupation"
+                id="criminal-occupation"
+                class="form-select w-full border border-black border-solid px-2 py-0.5"
+              >
+                <option value="">Select an option</option>
+                <option value="Private-Job">Private Job</option>
+                <option value="Government Job">Government Job</option>
+                <option value="Student">Student</option>
+                <option value="Business">Business</option>
+                <option value="Unemployed">Unemployed</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label for="criminal-gender" class="font-medium text-gray-600"
+                >Gender</label
+              >
+              <select
+                name="criminal-gender"
+                id="criminal-gender"
+                class="form-select w-full border border-black border-solid px-2 py-0.5"
+              >
+                <option value="">Select an option</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Transgender">Transgender</option>
+                <option value="Prefer-not-say">Prefer not say</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <legend class="text-lg font-semibold mb-4">Legal Documents</legend>
+          </div>
+
+          <div class="grid grid-cols-2 gap-x-4">
+            <div class="mb-4">
+              <label for="criminal_adhar" class="font-medium text-gray-600"
+                >Adhaar Number*</label
+              >
+              <input
+                type="text"
+                id="criminal_adhar"
+                name="criminal_adhar"
+                class="form-input w-full border border-black px-2 py-0.5"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="criminal_voterid" class="font-medium text-gray-600"
+                >Voter ID</label
+              >
+              <input
+                type="text"
+                id="criminal_voterid"
+                name="criminal_voterid"
+                class="form-input w-full border border-black px-2 py-0.5"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-x-4">
+            <div class="mb-4">
+              <label for="criminal_dl" class="font-medium text-gray-600"
+                >Driving License Number</label
+              >
+              <input
+                type="text"
+                id="criminal_dl"
+                name="criminal_dl"
+                class="form-input w-full border border-black px-2 py-0.5"
+                autocomplete="off"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="criminal_passport" class="font-medium text-gray-600"
+                >Passport</label
+              >
+              <input
+                type="text"
+                id="criminal_passport"
+                name="criminal_passport"
+                class="form-input w-full border border-black px-2 py-0.5"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            id="submitBtn"
+            class="w-full bg-green-500 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 text-white font-bold py-2 px-4 rounded shadow-md"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function displayImage(input) {
+        var uploadedPhoto = document.getElementById("uploaded-photo");
+
+        if (input.files.length > 0) {
+          var file = input.files[0];
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            uploadedPhoto.src = e.target.result; // Set the src of the <img> element
+            uploadedPhoto.style.display = "block"; // Display the image
+          };
+
+          reader.readAsDataURL(file);
+        }
+      }
+
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", function () {
+          // Create a FormData object to collect form data
+          const form = document.getElementById("criminalForm");
+          const formData = new FormData(form);
+
+          // Send an AJAX request to your Flask server
+          fetch("/submit_criminal", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text())
+            .then((data) => {
+              alert(data); // Show a message from the server
+              window.location.href = 'criminal_report';
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>

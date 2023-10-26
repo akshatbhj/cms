@@ -1,0 +1,32 @@
+FIR Number: 000005
+FIR Date: 2023-10-26
+Incident Date: 2023-10-25
+Incident Time: 11:08:01
+State / Territory: Uttarakhand
+District : Dehradun
+Police station : Kotwali Nagar
+
+SUSPECT DETAILS:-
+Suspect Name: Akshat Bhardwaj
+Suspect Alias Name: 
+Suspect Phone Number: 09528121505
+Suspect IMEI Number: 
+Crime Category: 
+Crime sub-Category: 
+Crime Place: 
+Crime State: Uttarakhand
+
+BANKING DETAILS:-
+Bank Name: 
+Bank IFSC Number: 
+Bank Branch: 
+Bank City: 
+Bank State: 
+Account Number: 
+Account Holder's Name: 
+Crypto Account Number: 
+Crypto Account Name: 
+
+ADDITIONAL DETAILS:-
+Description : 
+suspect_upload : 

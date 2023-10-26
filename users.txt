@@ -1,0 +1,6 @@
+admin,admin
+amar,amar
+akshat,akshat
+ayush,ayush
+vinay,vinay
+gupta,gupta

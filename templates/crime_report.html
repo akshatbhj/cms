@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Cybercrime File Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="static/Image/Uttarakhand_Police_Logo.png"
+      type="image/x-icon"
+    />
+
+    <style>
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        /* background-color: rgb(30, 64, 175); */
+        background-color: rgb(31 41 55);
+        color: white;
+        width: 250px; /* Set the desired width of the navbar */
+      }
+
+      .content {
+        margin-left: 220px; /* Adjust this margin to keep the content next to the navbar */
+        padding: 20px;
+      }
+
+      .custom-button {
+        background-color: #2c3e50;
+        /* Initial background color */
+        /* Add other button styles as needed */
+      }
+
+      .container {
+        background-image: url("{{ url_for('static', filename='Image/bg.jpg') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    </style>
+  </head>
+  <body class="bg-blue-800">
+    <!-- Navbar -->
+    <div class="bg-gray-800 text-white p-4 z-10">
+      <div class="flex items-center justify-between">
+        <!-- Left Section (Logo) -->
+        <div class="flex items-center">
+          <img
+            src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+            alt="Logo"
+            class="h-8 w-8"
+          />
+        </div>
+
+        <!-- Middle Section (Text) -->
+        <span class="text-lg">Cybercrime Resource Control [CyberrCon]</span>
+
+        <!-- Right Section (User Profile) -->
+        <div class="flex items-center">
+          <span class="ml-2">{{ username }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vertical Navbar with full screen height -->
+    <div class="navbar ">
+      <div class="flex items-center p-4">
+        <img
+          src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+          alt="Logo"
+          class="h-8 w-8"
+        />
+      </div>
+      <ul class="space-y-0 pt-0 bg-gray-800">
+        <li
+          class="border-solid border-t border-b border-white p-3 hover:bg-gray-700"
+        >
+          <a href="{{ url_for('index') }}"
+            ><i class="fa-solid fa-house mr-4 ml-0.5" style="color: #ffffff"></i
+            >Home</a
+          >
+        </li>
+        <li
+          class="custom-button border-solid border-b border-white p-3 hover:bg-gray-700 bg-gray-800"
+        >
+          <a href="{{ url_for('crime_report') }}"
+            ><i
+              class="fa-solid fa-file-circle-plus mr-3 ml-1"
+              style="color: #ffffff"
+            ></i>
+            Add Crime Report</a
+          >
+        </li>
+        <li
+          class="border-solid border-b border-white p-3 hover:bg-gray-700 bg-gray-800"
+        >
+          <a href="{{ url_for('criminal_report') }}"
+            ><i
+              class="fa-solid fa-user-plus mr-3 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Add Criminal Profile</a
+          >
+        </li>
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+          <a href="{{ url_for('index') }}"
+            ><i
+              class="fa-solid fa-magnifying-glass mr-4 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Search Database</a
+          >
+        </li>
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+          <a href="{{ url_for('folders') }}"
+            ><i
+              class="fa-solid fa-folder mr-4 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Case Folders</a
+          >
+        </li>
+        <!-- Add more options as needed -->
+        {% include 'logout.html' %}
+        <!-- Logout button inside the vertical navbar -->
+        {% if username == 'admin' %}
+        <li
+          class="border-solid border-b border-white p-3 py-2 hover:bg-gray-700"
+        >
+          <a href="{{ url_for('create_user') }}"
+            ><i class="fa-solid fa-plus mr-4 ml-0.5" style="color: #ffffff"></i>
+            Create New User
+          </a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="w-3/4 mx-auto mt-2 p-5 bg-white rounded">
+        <form action="/submit" method="POST">
+          <div class="step" data-step="1">
+            <legend class="text-lg font-semibold mb-4">
+              Step1 - Complaint & Incident Details
+            </legend>
+            <div class="mt-4">
+              <label>Folder Name (Pattern: case-number/year):</label>
+              <input
+                type="text"
+                name="folder_name"
+                class="border border-black px-2 py-1 w-1/4"
+                autocomplete="off"
+              />
+            </div>
+            <!-- FIR Number field -->
+            <div class="grid grid-cols-2 gap-x-4 mt-6">
+              <div class="mb-4">
+                <label for="fir_no" class="font-medium text-gray-600"
+                  >FIR Number*</label
+                >
+                <input
+                  type="text"
+                  id="fir_no"
+                  name="fir_no"
+                  class="form-input w-full border border-black px-2 py-1"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="fir_date" class="font-medium text-gray-600"
+                  >Date of FIR*</label
+                >
+                <input
+                  type="date"
+                  id="fir_date"
+                  name="fir_date"
+                  class="form-input w-full border border-black px-2 py-1"
+                />
+              </div>
+            </div>
+
+            <!-- Incident date and time field -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4 w-full">
+                <label for="incident_date" class="font-medium text-gray-600"
+                  >Incident Date*</label
+                >
+                <input
+                  type="date"
+                  id="incident_date"
+                  name="incident_date"
+                  class="form-input w-full border border-black px-2 py-1"
+                />
+              </div>
+
+              <!-- Incident date and time field -->
+              <div class="mb-4 w-full">
+                <label for="incident_time" class="font-medium text-gray-600"
+                  >Incident Time</label
+                >
+                <div class="flex">
+                  <input
+                    type="time"
+                    id="incident_time"
+                    name="incident_time"
+                    class="form-input w-3/5 border border-black mr-2 px-2 py-1"
+                    step="1"
+                  />
+                  <select
+                    id="time_period"
+                    name="time_period"
+                    class="form-select w-2/5 border border-black px-2 py-1"
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- State Seletion -->
+            <div class="mb-4">
+              <label
+                for="state_territory"
+                class="block font-medium text-gray-600"
+                >Originating State*</label
+              >
+              <select
+                id="state_territory"
+                name="state_territory"
+                class="form-select w-full px-2 py-1 border border-black"
+                onchange="updateDistricts()"
+              >
+                <option value="">Select an option</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <!-- Add more state/territory options as needed -->
+              </select>
+            </div>
+
+            <!-- District and Police station  -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label for="district" class="block font-medium text-gray-600"
+                  >District*</label
+                >
+                <select
+                  id="district"
+                  name="district"
+                  class="form-select w-full px-2 py-1 border border-black"
+                  onchange="updatePoliceStations()"
+                >
+                  <option value="">Select an option</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label
+                  for="police_station"
+                  class="block font-medium text-gray-600"
+                  >Police Station*</label
+                >
+                <select
+                  id="police_station"
+                  name="police_station"
+                  class="form-select w-full px-2 py-1 border border-black"
+                >
+                  <option value="">Select an option</option>
+                </select>
+              </div>
+            </div>
+            <!-- Add District, Police Station, Date fields here -->
+          </div>
+
+          <div class="step" data-step="2">
+            <legend class="text-lg font-semibold mb-4">
+              Step2 - Suspect Details
+            </legend>
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label for="suspect_name" class="font-medium text-gray-600"
+                  >Suspect's Full Name*</label
+                >
+                <input
+                  type="text"
+                  id="suspect_name"
+                  name="suspect_name"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  for="suspect_name_alias"
+                  class="font-medium text-gray-600"
+                  >Alias Name*</label
+                >
+                <input
+                  type="text"
+                  id="suspect_name_alias"
+                  name="suspect_name_alias"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- Incident type field -->
+            <div class="mb-4">
+              <label for="crime_type" class="block font-medium text-gray-600"
+                >Crime Category*</label
+              >
+              <select
+                id="crime_type"
+                name="crime_type"
+                class="form-select w-full border border-black border-solid px-2 py-1"
+              >
+                <option value="">Select an option</option>
+                <option value="phishing">Phishing</option>
+                <option value="hacking">Hacking</option>
+                <option value="malware">Malware</option>
+                <option value="malware">Online Banking Fraud</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label
+                for="crime_sub_type"
+                class="block font-medium text-gray-600"
+                >Crime Sub-Category</label
+              >
+              <select
+                id="crime_sub_type"
+                name="crime_sub_type"
+                class="form-select w-full border border-black border-solid px-2 py-1"
+              >
+                <option value="">Select an option</option>
+                <option value="phishing">Phishing</option>
+                <option value="hacking">Hacking</option>
+                <option value="malware">Malware</option>
+                <option value="malware">Online Banking Fraud</option>
+              </select>
+            </div>
+
+            <!-- Crime place and State -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label for="crime_place" class="font-medium text-gray-600"
+                  >Crime Originating Place*</label
+                >
+                <input
+                  type="text"
+                  id="crime_place"
+                  name="crime_place"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="crime_state" class="font-medium text-gray-600"
+                  >Crime Originating State*</label
+                >
+                <input
+                  type="text"
+                  id="crime_state"
+                  name="crime_state"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- Phone and IMEI -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label for="suspect_phone" class="font-medium text-gray-600"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="suspect_phone"
+                  name="suspect_phone"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="suspect_imei" class="font-medium text-gray-600"
+                  >IMEI</label
+                >
+                <input
+                  type="text"
+                  id="suspect_imei"
+                  name="suspect_imei"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="mb-4">
+              <label for="suspect_upload" class="font-medium text-gray-600"
+                >Upload Media (File/Image/Video etc.)</label
+              >
+              <input
+                type="file"
+                id="suspect_upload"
+                name="suspect_upload"
+                class="form-input w-full border border-black p-2"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="step" data-step="3">
+            <legend class="text-lg font-semibold mb-4">
+              Step3 - Bank & Account Details
+            </legend>
+            <!-- Bank Name and IFSC code -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label for="suspect_bank_name" class="font-medium text-gray-600"
+                  >Bank Name</label
+                >
+                <input
+                  type="text"
+                  id="suspect_bank_name"
+                  name="suspect_bank_name"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="suspect_bank_ifsc" class="font-medium text-gray-600"
+                  >Bank IFSC Code</label
+                >
+                <input
+                  type="text"
+                  id="suspect_bank_ifsc"
+                  name="suspect_bank_ifsc"
+                  class="form-input w-3/4 border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- Bank place and State -->
+            <div class="grid grid-cols-3 gap-x-2">
+              <div class="mb-4">
+                <label for="bank_branch" class="font-medium text-gray-600"
+                  >Branch</label
+                >
+                <input
+                  type="text"
+                  id="bank_branch"
+                  name="bank_branch"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="bank_city" class="font-medium text-gray-600"
+                  >City</label
+                >
+                <input
+                  type="text"
+                  id="bank_city"
+                  name="bank_city"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="bank_state" class="font-medium text-gray-600"
+                  >State</label
+                >
+                <input
+                  type="text"
+                  id="bank_state"
+                  name="bank_state"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- Account Details -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label for="account_number" class="font-medium text-gray-600"
+                  >Account Number</label
+                >
+                <input
+                  type="text"
+                  id="account_number"
+                  name="account_number"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="account_name" class="font-medium text-gray-600"
+                  >Account Holder's Name</label
+                >
+                <input
+                  type="text"
+                  id="account_name"
+                  name="account_name"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- Crypto Details -->
+            <div class="grid grid-cols-2 gap-x-4">
+              <div class="mb-4">
+                <label
+                  for="crypto_account_number"
+                  class="font-medium text-gray-600"
+                  >Crypto Wallet ID</label
+                >
+                <input
+                  type="text"
+                  id="crypto_account_number"
+                  name="crypto_account_number"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  for="crypto_account_name"
+                  class="font-medium text-gray-600"
+                  >Crypto Wallet Name</label
+                >
+                <input
+                  type="text"
+                  id="crypto_account_name"
+                  name="crypto_account_name"
+                  class="form-input w-full border border-black px-2 py-1"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="mb-4">
+              <label for="description" class="block font-medium text-gray-600"
+                >Additional Details (if any)</label
+              >
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                class="form-textarea w-full border border-black border-solid px-4 py-2"
+              ></textarea>
+            </div>
+          </div>
+          <button
+            type="button"
+            id="prevBtn"
+            class="hidden bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring focus:ring-gray-300 text-white font-bold py-2 px-4 mr-4 rounded shadow-md"
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            id="nextBtn"
+            class="bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 text-white font-bold py-2 px-4 rounded shadow-md"
+          >
+            Next->
+          </button>
+
+          <button
+            type="submit"
+            id="submitBtn"
+            class="hidden bg-green-500 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 text-white font-bold py-2 px-4 rounded shadow-md"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const steps = document.querySelectorAll(".step");
+      let currentStep = 0;
+      const nextBtn = document.getElementById("nextBtn");
+      const prevBtn = document.getElementById("prevBtn");
+      const submitBtn = document.getElementById("submitBtn");
+
+      function showStep(step) {
+        steps.forEach((s, index) => {
+          if (index === step) {
+            s.style.display = "block";
+          } else {
+            s.style.display = "none";
+          }
+        });
+        if (step === 0) {
+          prevBtn.style.display = "none";
+        } else {
+          prevBtn.style.display = "inline";
+        }
+        if (step === steps.length - 1) {
+          nextBtn.style.display = "none";
+          submitBtn.style.display = "inline";
+        } else {
+          nextBtn.style.display = "inline";
+          submitBtn.style.display = "none";
+        }
+      }
+
+      function nextStep() {
+        currentStep++;
+        showStep(currentStep);
+      }
+
+      function prevStep() {
+        currentStep--;
+        showStep(currentStep);
+      }
+
+      submitBtn.addEventListener("click", function () {
+        const formData = new FormData(document.querySelector("form"));
+
+        // Send the form data to the server using AJAX
+        fetch("/submit", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            // Handle the server's response (e.g., display a success message)
+            alert(data);
+            window.location.href = "crime_report";
+          })
+          .catch((error) => {
+            // Handle errors
+            console.error(error);
+          });
+      });
+
+      showStep(currentStep);
+
+      nextBtn.addEventListener("click", nextStep);
+      prevBtn.addEventListener("click", prevStep);
+
+      // Custom button
+      document.addEventListener("DOMContentLoaded", function () {
+        const button = document.querySelector(".custom-button");
+
+        button.addEventListener("click", function () {
+          button.classList.toggle("clicked");
+        });
+      });
+
+      // Define the districts for each state or union territory
+      const districtOptions = {
+        Uttarakhand: [
+          "Dehradun",
+          "Haridwar",
+          "Udham Singh Nagar",
+          "Almora",
+          "Pithoragarh",
+          "Rudraprayag",
+          "Chamoli",
+          "Uttarkashi",
+          "Nainital",
+          "Champawat",
+          "Bageshwar",
+          "Tehri Garhwal",
+          "Pauri Garhwal", // Add more districts as needed
+        ],
+        // Add more entries for other states/territories
+      };
+
+      // Define the police stations for each district
+      const policeStationOptions = {
+        Dehradun: [
+          "Kotwali Nagar",
+          "Dalanwala",
+          "Rishikesh",
+          "Mussoorie",
+          "Vikas Nagar",
+          "Doiwala",
+          "Patelnagar",
+          "Cantt",
+          "Basant Vihar",
+          "Nehru Colony",
+          "Rajpur",
+          "Raiwala",
+          "Clement Town",
+          "Sahaspur",
+          "Raipur",
+          "Chakrata",
+          "Kalsi",
+          "GRP",
+          "Ranipokhari",
+          "Prem Nagar",
+          "Tuini",
+          "Selakui",
+        ],
+        Haridwar: [
+          "Haridwar",
+          "Roorkee",
+          "Jwalapur",
+          "Kankhal",
+          "Ranipur",
+          "Roorkee",
+          "Gangnahar",
+          "Bhagwanpur",
+          "Manglore",
+          "Jhabera",
+          "Lakshar",
+          "Pathri",
+          "Shyampur",
+          "Khanpur",
+          "Bahadarabad",
+          "Buggawala",
+          "Sidkul",
+          "Kaliyar Sharif",
+        ],
+        Almora: [
+          "Kotwali Almora",
+          "Someshwar",
+          "Bhatroujkhan",
+          "Ranikhet",
+          "Dwarahat",
+          "Lamgara",
+          "Salt",
+          "Chaukhutia",
+          "Daniya",
+          "Deghat",
+          "Dhauljhina",
+        ],
+        Pithoragarh: [
+          "Kotwali Pithoragarh",
+          "Askote",
+          "Balwakot",
+          "Didihat",
+          "Dharchula",
+          "Gangolihat",
+          "Jhulaghat",
+          "Berinag",
+          "Jauljibi",
+          "Kanalichina",
+          "Munsyari",
+          "Pangla",
+          "Thal",
+          "Gunji",
+        ],
+        Rudraprayag: [
+          "Rudraprayag",
+          "Ukhimath",
+          "Augustmuni",
+          "Guptkashi",
+          "Sonprayag",
+        ],
+        Bageshwar: [
+          "Kotwali Bageshwar",
+          "Baijnath",
+          "Jhiroli",
+          "Kapkot",
+          "Kausani",
+          "Kanda",
+        ],
+        Uttarkashi: [
+          "Kotwali Uttarkashi",
+          "Maneri",
+          "Dharashu",
+          "Barkot",
+          "Purola",
+          "Mori",
+          "Harshil",
+        ],
+        Champawat: [
+          "Kotwali Champawat",
+          "Banbasa",
+          "Tanakpur",
+          "Tamli",
+          "Pancheswar",
+          "Lohaghat",
+          "Reethasahib",
+          "Pati",
+        ],
+        Chamoli: [
+          "Chamoli",
+          "Gopeshwar",
+          "Joshimath",
+          "Karnprayag",
+          "Tharali",
+          "Gairsen",
+          "Pokhari",
+          "Govindghat",
+          "Badrinath",
+          "Ghat",
+        ],
+        "Tehri Garhwal": [
+          "New Tehri",
+          "Kirtinagar",
+          "Devprayag",
+          "Chamba",
+          "Narendranagar",
+          "Munikireti",
+          "Ghansali",
+          "Kampty",
+          "Hindolakhal",
+          "Lambgaon",
+          "Thatuir",
+          "Chham",
+        ],
+        "Pauri Garhwal": [
+          "Pauri",
+          "Srinagar",
+          "Laxmanjhula",
+          "Satpuli",
+          "Lansdowne",
+          "Kotdwar",
+          "Kalagarh",
+          "Dhumakot",
+          "Rikhanikhal",
+          "Paithani",
+          "Thelisein",
+          "Yamkeshwar",
+        ],
+        Nainital: [
+          "Mallital",
+          "Tallital",
+          "Bhawali",
+          "Bheemtal",
+          "Mukteshwar",
+          "Kaladhungi",
+          "Ramnagar",
+          "Lalkuan",
+          "Haldwani",
+          "Chorglia",
+          "Kathgodam",
+          "Betalghat",
+          "Mukhani",
+          "Banabhulpura",
+          "Khanysun",
+        ],
+        "Udham Singh Nagar": [
+          "Kashipur",
+          "Rudrapur",
+          "Jaspur",
+          "Kunda",
+          "ITI Kashipur",
+          "Kelakheda",
+          "Bajpur",
+          "Gadarpur",
+          "Dineshpur",
+          "Transit Camp Rudrapur",
+          "Pantnagar",
+          "Kichha",
+          "Pulbhatta",
+          "Sitarganj",
+          "Nanakmatta",
+          "Khatima",
+          "Jhankaiya",
+        ],
+        // Add more entries for other district  qs
+      };
+
+      // Function to update the districts dropdown based on the selected state
+      function updateDistricts() {
+        const stateTerritorySelect = document.getElementById("state_territory");
+        const districtSelect = document.getElementById("district");
+        const policeStationSelect = document.getElementById("police_station");
+
+        // Get the selected state or union territory
+        const selectedState = stateTerritorySelect.value;
+
+        // Clear existing options in the district and police station dropdowns
+        districtSelect.innerHTML = "";
+        policeStationSelect.innerHTML = "";
+
+        // Add the "None" option
+        districtSelect.appendChild(new Option("None", ""));
+        policeStationSelect.appendChild(new Option("None", ""));
+
+        // Populate the district dropdown with options based on the selected state
+        if (selectedState in districtOptions) {
+          districtOptions[selectedState].forEach((district) => {
+            districtSelect.appendChild(new Option(district, district));
+          });
+        }
+      }
+
+      // Function to update the police station dropdown based on the selected district
+      function updatePoliceStations() {
+        const districtSelect = document.getElementById("district");
+        const policeStationSelect = document.getElementById("police_station");
+
+        // Get the selected district
+        const selectedDistrict = districtSelect.value;
+
+        // Clear existing options in the police station dropdown
+        policeStationSelect.innerHTML = "";
+
+        // Add the "None" option
+        policeStationSelect.appendChild(new Option("None", ""));
+
+        // Populate the police station dropdown with options based on the selected district
+        if (selectedDistrict in policeStationOptions) {
+          policeStationOptions[selectedDistrict].forEach((policeStation) => {
+            policeStationSelect.appendChild(
+              new Option(policeStation, policeStation)
+            );
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberrCon</title>
+    <link
+      rel="shortcut icon"
+      href="static/Image/Uttarakhand_Police_Logo.png"
+      type="image/x-icon"
+    />
+    <script
+      src="https://kit.fontawesome.com/7bda016311.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .custom-button {
+        background-color: #2c3e50;
+        /* background-color: rgb(31 41 55); */
+        /* Initial background color */
+        /* Add other button styles as needed */
+      }
+    </style>
+  </head>
+  <body class="overflow-hidden">
+    <!-- Navbar -->
+    <div class="bg-gray-800 text-white p-4">
+      <div class="flex items-center justify-between">
+        <!-- Left Section (Logo) -->
+        <div class="flex items-center">
+          <img
+            src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+            alt="Logo"
+            class="h-8 w-8"
+          />
+        </div>
+
+        <!-- Middle Section (Text) -->
+        <span class="text-lg">Cybercrime Resource Control [CyberrCon]</span>
+
+        <!-- Right Section (User Profile) -->
+        <div class="flex items-center">
+          <span class="ml-2">{{ username }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vertical Navbar with full screen height -->
+    <div class="flex">
+      <div class="bg-gray-800 text-white h-screen w-60">
+        <ul class="space-y-0">
+          <li
+            class="border-solid border-b border-t border-white p-3 hover:bg-gray-700 custom-button"
+          >
+            <a href="{{ url_for('index') }}"
+              ><i
+                class="fa-solid fa-house mr-4 ml-0.5"
+                style="color: #ffffff"
+              ></i
+              >Home</a
+            >
+          </li>
+          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+            <a href="{{ url_for('crime_report') }}"
+              ><i
+                class="fa-solid fa-file-circle-plus mr-3 ml-1"
+                style="color: #ffffff"
+              ></i>
+              Add Crime Report</a
+            >
+          </li>
+          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+            <a href="{{ url_for('criminal_report') }}"
+              ><i
+                class="fa-solid fa-user-plus mr-3 ml-0.5"
+                style="color: #ffffff"
+              ></i>
+              Add Criminal Profile</a
+            >
+          </li>
+          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+            <a href="{{ url_for('index') }}"
+              ><i
+                class="fa-solid fa-magnifying-glass mr-4 ml-0.5"
+                style="color: #ffffff"
+              ></i>
+              Search Database</a
+            >
+          </li>
+          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+            <a href="{{ url_for('folders') }}"
+              ><i
+                class="fa-solid fa-folder mr-4 ml-0.5"
+                style="color: #ffffff"
+              ></i>
+              Case Folders</a
+            >
+          </li>
+          <!-- Add more options as needed -->
+          {% include 'logout.html' %}
+          <!-- Logout button inside the vertical navbar -->
+          {% if username == 'admin' %}
+          <li
+            class="border-solid border-b border-white p-3 py-2 hover:bg-gray-700"
+          >
+            <a href="{{ url_for('create_user') }}"
+              ><i
+                class="fa-solid fa-plus mr-4 ml-0.5"
+                style="color: #ffffff"
+              ></i>
+              Create New User
+            </a>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Display content for logged-in users -->
+    <!-- {% include 'logout.html' %} {% if username == 'admin' %}
+    <a href="{{ url_for('create_user') }}">Create New User</a>
+    {% endif %} -->
+    <!-- Other content for logged-in users -->
+
+    <!-- Content Area -->
+    <div class="ml-20 p-4">
+      <!-- Display content for logged-in users -->
+
+      <!-- Other content for logged-in users -->
+      <div id="crime-category-chart">
+        {{ chart_html | safe }}
+        <!-- Use the | safe filter to render HTML -->
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const button = document.querySelector(".custom-button");
+
+        button.addEventListener("click", function () {
+          button.classList.toggle("clicked");
+        });
+      });
+    </script>
+  </body>
+</html>

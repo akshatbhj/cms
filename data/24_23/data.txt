@@ -1,0 +1,30 @@
+FIR Number: 000004
+FIR Date: 2023-10-24
+Incident Date: 2023-10-23
+Incident Time: 23:41:54
+State / Territory: Uttarakhand
+District : Udham Singh Nagar
+Police station : Rudrapur
+
+SUSPECT DETAILS:-
+Suspect Name: Akshat Bhardwaj
+Suspect Alias Name: 
+Suspect Phone Number: 9528121505
+Suspect IMEI Number: 3233343542434445
+Crime Category: hacking
+Crime sub-Category: malware
+Crime Place: Home
+Crime State: Uttarakhand
+
+BANKING DETAILS:-
+Bank Name: State Bank of India
+Bank IFSC Number: SBI001000
+Bank Branch: Avas Vikas
+Bank City: Rudrapur
+Bank State: Uttarakhand
+Account Number: 0010002938247264
+Account Holder's Name: Akshat Bhardwaj
+Crypto Account Number: 
+Crypto Account Name: 
+
+ADDITIONAL DETAILS:-

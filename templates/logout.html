@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout</title>
+    <script
+      src="https://kit.fontawesome.com/7bda016311.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <form method="POST" action="{{url_for('logout')}}">
+      <ul>
+        <li
+          class="border-solid border-b border-white p-3 py-2 hover:bg-gray-700"
+        >
+          <button type="submit">
+            <i
+              class="fa-solid fa-right-from-bracket mr-4 ml-1"
+              style="color: #ffffff"
+            ></i
+            >Logout
+          </button>
+        </li>
+      </ul>
+    </form>
+  </body>
+</html>

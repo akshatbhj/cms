@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Folder Contents</title>
+    <link
+      rel="shortcut icon"
+      href="static/Image/Uttarakhand_Police_Logo.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="p-4">
+      <h1 class="text-3xl font-semibold mb-4">{{ folder_name }}</h1>
+      <div class="bg-white p-4 shadow-md rounded-lg">
+        <div class="grid grid-cols-3 gap-4">
+          <div
+            class="p-2 border border-gray-200 rounded-md hover:bg-blue-100 cursor-pointer"
+          >
+            <a href="{{ image_path }}" target="_blank">
+              <img
+                src="{{ image_path }}"
+                alt="Folder Image"
+                class="w-20 h-20 object-cover"
+              />
+            </a>
+          </div>
+          <div class="col-span-2">
+            <p>Data:</p>
+            <pre class="bg-gray-200 p-2 rounded-lg">{{ folder_data }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

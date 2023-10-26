@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CyberrCon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="shortcut icon"
+      href="static/Image/Uttarakhand_Police_Logo.png"
+      type="image/x-icon"
+    />
+    <script
+      src="https://kit.fontawesome.com/7bda016311.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    {% if username %} {% include 'home.html' %} {% else %} {% include
+    'login.html' %} {% endif %}
+  </body>
+</html>
