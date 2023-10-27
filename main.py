@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, send_file, url_for, session
 import datetime
 import csv
 import os
+import mimetypes
 import re
 from urllib.parse import quote, unquote
 import plotly.express as px
@@ -74,8 +75,6 @@ def index():
 
 
 # Login Route
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     login_successful = True  # Initialize as True by default
@@ -313,22 +312,50 @@ def folders():
     folder_list = sorted(os.listdir(data_folder),
                          key=lambda folder: int(folder))
 
-    return render_template('folders.html', folders=folder_list)
+    folder_files = {}
+    for folder in folder_list:
+        folder_path = os.path.join(data_folder, folder)
+        files = os.listdir(folder_path)
+        folder_files[folder] = files
+
+    return render_template('folders.html', folders=folder_list, folder_files=folder_files)
 
 
-@app.route('/folders/<folder_name>')
-def folder_contents(folder_name):
-    folder_path = os.path.join('data', folder_name)
-    data_file = os.path.join(folder_path, 'data.txt')
-    image_file = os.path.join(folder_path, 'photo.jpg')
+@app.route('/folders/<folder>')
+def folder_contents(folder):
+    data_folder = 'data'
+    folder_path = os.path.join(data_folder, folder)
+    files = os.listdir(folder_path)
+    return render_template('folder_contents.html', folder_name=folder, files=files)
 
-    if os.path.exists(data_file):
-        with open(data_file, 'r') as file:
-            folder_data = file.read()
-    else:
-        folder_data = "Data not found."
 
-    return render_template('folder_contents.html', folder_name=folder_name, folder_data=folder_data)
+@app.route('/folders/<folder>/<file>')
+def open_file(folder, file):
+    folder_path = os.path.join('data', folder)
+    file_path = os.path.join(folder_path, file)
+    mime_type, _ = mimetypes.guess_type(file_path)
+    return send_file(file_path, mimetype=mime_type)
+
+
+@app.route('/folders/<folder>')
+def open_folder(folder):
+    # Perform any necessary actions to handle the folder click event
+    return f"Opening folder: {folder}"
+
+
+# @app.route('/folders/<folder_name>')
+# def folder_contents(folder_name):
+#     folder_path = os.path.join('data', folder_name)
+#     file_names = ['data.txt', 'phone_data.xlsx', 'account_data.xlsx', 'imei_data.xlsx']
+#     files = [os.path.join(folder_path, file_name) for file_name in file_names]
+
+#     folder_files = {}
+#     for file in files:
+#         if os.path.exists(file):
+#             with open(file, 'r', encoding='utf-8', errors='ignore') as f:
+#                 folder_files[os.path.basename(file)] = f.read()
+
+#     return render_template('folder_contents.html', folder_name=folder_name, folder_files=folder_files)
 
 
 def generate_crime_category_chart(data):
