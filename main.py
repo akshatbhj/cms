@@ -3,7 +3,6 @@ import datetime
 import csv
 import os
 import mimetypes
-import re
 from urllib.parse import quote, unquote
 import plotly.express as px
 import pandas as pd
@@ -338,21 +337,6 @@ def open_file(folder, file):
 def open_folder(folder):
     # Perform any necessary actions to handle the folder click event
     return f"Opening folder: {folder}"
-
-
-# @app.route('/folders/<folder_name>')
-# def folder_contents(folder_name):
-#     folder_path = os.path.join('data', folder_name)
-#     file_names = ['data.txt', 'phone_data.xlsx', 'account_data.xlsx', 'imei_data.xlsx']
-#     files = [os.path.join(folder_path, file_name) for file_name in file_names]
-
-#     folder_files = {}
-#     for file in files:
-#         if os.path.exists(file):
-#             with open(file, 'r', encoding='utf-8', errors='ignore') as f:
-#                 folder_files[os.path.basename(file)] = f.read()
-
-#     return render_template('folder_contents.html', folder_name=folder_name, folder_files=folder_files)
 
 
 def generate_crime_category_chart(data):
