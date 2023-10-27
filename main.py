@@ -122,15 +122,11 @@ def create_user():
     return render_template('create_user.html')
 
 # Add crime report
-
-
 @app.route('/crime_report', methods=['GET', 'POST'])
 def crime_report():
     return render_template('crime_report.html')
 
 # Add criminal report
-
-
 @app.route('/criminal_report', methods=['GET', 'POST'])
 def criminal_report():
     return render_template('criminal_report.html')
@@ -316,6 +312,7 @@ def folders():
     for folder in folder_list:
         folder_path = os.path.join(data_folder, folder)
         files = os.listdir(folder_path)
+        folder_name = folder.replace('_', '/')
         folder_files[folder] = files
 
     return render_template('folders.html', folders=folder_list, folder_files=folder_files)

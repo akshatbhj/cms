@@ -148,14 +148,14 @@
           <div
             class="bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden hover:bg-opacity-100 text-white hover:text-black"
           >
-            <a href="/folders/{{ folder }}" class="block p-4">
+            <a href="/folders/{{ folder.replace('/', '_') }}" class="block p-4">
               <div class="flex flex-col items-center">
                 <i
                   class="fa-solid fa-folder-closed text-5xl mb-4 mt-4"
                   style="color: #b3b259"
                 ></i>
                 <span class="font-semibold hover:no-underline"
-                  >{{ folder }}</span
+                  >{{ folder.replace('_', '/') }}</span
                 >
               </div>
             </a>
