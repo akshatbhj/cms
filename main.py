@@ -1,3 +1,4 @@
+from flask import request
 from flask import Flask, render_template, request, redirect, send_file, url_for, session
 import datetime
 import csv
@@ -37,9 +38,7 @@ log_file_path = 'user_logins.txt'
 with open(log_file_path, 'a') as log_file:
     pass  # This will create the file if it doesn't exist
 
-# Function to log user logins
-
-
+# Function to log user login.
 def log_login(username, action):
     current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # Replace with the actual file path
@@ -47,30 +46,17 @@ def log_login(username, action):
     with open(log_file_path, 'a') as log_file:
         log_file.write(f'User: {username}, {action} Time: {current_time}\n')
 
+
 # Index Route
-
-
 @app.route('/')
 def index():
     username = session.get('username')
     if 'username' not in session:
         # User is not logged in, redirect to the login page
         return redirect(url_for('login'))
-
-    fir_data = [
-        {
-            "Crime Category": "Malware",
-            "Crime Sub-Category": "Hacking",
-            # Add more data attributes as needed
-        },
-        # Add more data entries as needed
-    ]
-
-    # Generate the chart HTML
-    chart_html = generate_crime_category_chart(fir_data)
-
+    
     # User is logged in, you can render the main page
-    return render_template('index.html', username=username, chart_html=chart_html)
+    return render_template('index.html', username=username)
 
 
 # Login Route
@@ -121,11 +107,15 @@ def create_user():
     return render_template('create_user.html')
 
 # Add crime report
+
+
 @app.route('/crime_report', methods=['GET', 'POST'])
 def crime_report():
     return render_template('crime_report.html')
 
 # Add criminal report
+
+
 @app.route('/criminal_report', methods=['GET', 'POST'])
 def criminal_report():
     return render_template('criminal_report.html')
@@ -305,7 +295,7 @@ def submit_criminal():
 def folders():
     data_folder = 'data'
     folder_list = sorted(os.listdir(data_folder),
-                         key=lambda folder: int(folder))
+                         key=lambda folder: int(folder.replace('_', '/').replace('/', '_')))
 
     folder_files = {}
     for folder in folder_list:
@@ -313,6 +303,11 @@ def folders():
         files = os.listdir(folder_path)
         folder_name = folder.replace('_', '/')
         folder_files[folder] = files
+
+    if search_query := request.args.get('search'):
+        filtered_folders = [
+            folder for folder in folder_list if search_query.replace('/', '_') in folder]
+        folder_list = filtered_folders
 
     return render_template('folders.html', folders=folder_list, folder_files=folder_files)
 
@@ -333,20 +328,10 @@ def open_file(folder, file):
     return send_file(file_path, mimetype=mime_type)
 
 
-@app.route('/folders/<folder>')
-def open_folder(folder):
-    # Perform any necessary actions to handle the folder click event
-    return f"Opening folder: {folder}"
-
-
-def generate_crime_category_chart(data):
-    # Create a DataFrame from the data
-    df = pd.DataFrame(data)
-
-    # Create a bar chart using Plotly Express
-    fig = px.bar(df, x="Crime Category", title="Crime Categories")
-
-    return fig.to_html(full_html=False)
+# @app.route('/folders/<folder>')
+# def open_folder(folder):
+#     # Perform any necessary actions to handle the folder click event
+#     return f"Opening folder: {folder}"
 
 
 if __name__ == '__main__':

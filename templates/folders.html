@@ -141,10 +141,30 @@
 
     <div class="content">
       <div class="w-full mx-auto p-5 bg-blue-800 rounded ml-4">
+        <form action="/folders" method="GET" class="mb-4">
+          <div class="flex w-full items-end justify-end px-4">
+            <input
+              type="text"
+              name="search"
+              placeholder="Search folders: XX/YY"
+              class="py-2 px-3 rounded"
+              autocomplete="off"
+            />
+            <button
+              type="submit"
+              class="px-4 py-2 ml-2 bg-gray-800 text-white rounded hover:bg-gray-700"
+            >
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="color: #ffffff"
+              ></i>
+            </button>
+          </div>
+        </form>
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 p-4"
         >
-          {% for folder in folders %}
+          {% if folders %} {% for folder in folders %}
           <div
             class="bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden hover:bg-opacity-100 text-white hover:text-black"
           >
@@ -160,7 +180,16 @@
               </div>
             </a>
           </div>
-          {% endfor %}
+          {% endfor %} {% else %}
+          <div class="flex items-center justify-center w-full">
+            <p class="text-red-500 font-semibold text-2xl">
+              No folders found<i
+                class="fa-solid fa-circle-exclamation ml-2"
+                style="color: #ff4242"
+              ></i>
+            </p>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
