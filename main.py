@@ -11,6 +11,7 @@ import pandas as pd
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # Replace with a secret key for sessions
 app.config['static'] = 'static/Image'
+app.config['user'] = 'CyberrCon'
 
 # Function to read user data to the text file
 
@@ -34,15 +35,17 @@ def write_user_data(user_data):
 
 
 # Replace with the actual file path
-log_file_path = 'user_logins.txt'
+log_file_path = 'static/user_logins.txt'
 with open(log_file_path, 'a') as log_file:
     pass  # This will create the file if it doesn't exist
 
 # Function to log user login.
+
+
 def log_login(username, action):
     current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # Replace with the actual file path
-    log_file_path = 'user_logins.txt'
+    log_file_path = 'static/user_logins.txt'
     with open(log_file_path, 'a') as log_file:
         log_file.write(f'User: {username}, {action} Time: {current_time}\n')
 
@@ -54,9 +57,9 @@ def index():
     if 'username' not in session:
         # User is not logged in, redirect to the login page
         return redirect(url_for('login'))
-    
+
     # User is logged in, you can render the main page
-    return render_template('index.html', username=username)
+    return render_template('home.html', username=username)
 
 
 # Login Route

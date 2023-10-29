@@ -9,20 +9,39 @@
       href="static/Image/Uttarakhand_Police_Logo.png"
       type="image/x-icon"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+    />
     <script
       src="https://kit.fontawesome.com/7bda016311.js"
       crossorigin="anonymous"
     ></script>
     <style>
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        /* background-color: rgb(30, 64, 175); */
+        background-color: rgb(31 41 55);
+        color: white;
+        width: 250px; /* Set the desired width of the navbar */
+      }
+
+      .content {
+        margin-left: 220px; /* Adjust this margin to keep the content next to the navbar */
+        padding: 20px;
+      }
+
       .custom-button {
         background-color: #2c3e50;
-        /* background-color: rgb(31 41 55); */
         /* Initial background color */
         /* Add other button styles as needed */
       }
     </style>
   </head>
-  <body class="overflow-hidden">
+  <body class="bg-blue-800">
     <!-- Navbar -->
     <div class="bg-gray-800 text-white p-4">
       <div class="flex items-center justify-between">
@@ -45,80 +64,100 @@
       </div>
     </div>
 
-    <!-- Vertical Navbar with full screen height -->
-    <div class="flex">
-      <div class="bg-gray-800 text-white h-screen w-60">
-        <ul class="space-y-0">
-          <li
-            class="border-solid border-b border-t border-white p-3 hover:bg-gray-700 custom-button"
-          >
-            <a href="{{ url_for('index') }}"
-              ><i
-                class="fa-solid fa-house mr-4 ml-0.5"
-                style="color: #ffffff"
-              ></i
-              >Home</a
-            >
-          </li>
-          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
-            <a href="{{ url_for('crime_report') }}"
-              ><i
-                class="fa-solid fa-file-circle-plus mr-3 ml-1"
-                style="color: #ffffff"
-              ></i>
-              Add Crime Report</a
-            >
-          </li>
-          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
-            <a href="{{ url_for('criminal_report') }}"
-              ><i
-                class="fa-solid fa-user-plus mr-3 ml-0.5"
-                style="color: #ffffff"
-              ></i>
-              Add Criminal Profile</a
-            >
-          </li>
-          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
-            <a href="{{ url_for('index') }}"
-              ><i
-                class="fa-solid fa-magnifying-glass mr-4 ml-0.5"
-                style="color: #ffffff"
-              ></i>
-              Search Database</a
-            >
-          </li>
-          <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
-            <a href="{{ url_for('folders') }}"
-              ><i
-                class="fa-solid fa-folder mr-4 ml-0.5"
-                style="color: #ffffff"
-              ></i>
-              Case Folders</a
-            >
-          </li>
-          <!-- Add more options as needed -->
-          {% include 'logout.html' %}
-          <!-- Logout button inside the vertical navbar -->
-          {% if username == 'admin' %}
-          <li
-            class="border-solid border-b border-white p-3 py-2 hover:bg-gray-700"
-          >
-            <a href="{{ url_for('create_user') }}"
-              ><i
-                class="fa-solid fa-plus mr-4 ml-0.5"
-                style="color: #ffffff"
-              ></i>
-              Create New User
-            </a>
-            {% endif %}
-          </li>
-        </ul>
+    <div class="navbar">
+      <div class="flex items-center p-4">
+        <img
+          src="{{url_for('static', filename='Image/Uttarakhand_Police_Logo.png')}}"
+          alt="Logo"
+          class="h-8 w-8"
+        />
       </div>
+      <ul class="space-y-0 pt-0 bg-gray-800">
+        <li
+          class="custom-button border-solid border-t border-b border-white p-3 hover:bg-gray-700"
+        >
+          <a href="{{ url_for('index') }}"
+            ><i class="fa-solid fa-house mr-4 ml-0.5" style="color: #ffffff"></i
+            >Home</a
+          >
+        </li>
+        <li
+          class="border-solid border-b border-white p-3 hover:bg-gray-700 bg-gray-800"
+        >
+          <a href="{{ url_for('crime_report') }}"
+            ><i
+              class="fa-solid fa-file-circle-plus mr-3 ml-1"
+              style="color: #ffffff"
+            ></i>
+            Add Crime Report</a
+          >
+        </li>
+        <li
+          class="border-solid border-b border-white p-3 hover:bg-gray-700 bg-gray-800"
+        >
+          <a href="{{ url_for('criminal_report') }}"
+            ><i
+              class="fa-solid fa-user-plus mr-3 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Add Criminal Profile</a
+          >
+        </li>
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+          <a href="{{ url_for('index') }}"
+            ><i
+              class="fa-solid fa-magnifying-glass mr-4 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Search Database</a
+          >
+        </li>
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+          <a href="{{ url_for('folders') }}"
+            ><i
+              class="fa-solid fa-folder mr-4 ml-0.5"
+              style="color: #ffffff"
+            ></i>
+            Case Folders</a
+          >
+        </li>
+        <!-- Add more options as needed -->
+        {% include 'logout.html' %}
+        <!-- Logout button inside the vertical navbar -->
+        {% if username == 'admin' %}
+        <li
+          class="border-solid border-b border-white p-3 py-2 hover:bg-gray-700"
+        >
+          <a href="{{ url_for('create_user') }}"
+            ><i class="fa-solid fa-plus mr-4 ml-0.5" style="color: #ffffff"></i>
+            Create New User
+          </a>
+          {% endif %}
+        </li>
+      </ul>
     </div>
 
-    <!-- Content Area -->
-    <div class="ml-2 p-4 bg-blue-700">
-      
+    <div class="content">
+      {% if username == 'admin' %}
+      <div
+        class="bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden hover:bg-opacity-100 text-white hover:text-black w-40 mx-auto p-2 ml-10"
+      >
+        <a
+          href="{{ url_for('static', filename='user_logins.txt') }}"
+          class="block p-4"
+        >
+          <div class="flex flex-col items-center">
+            <i
+              class="fa-solid fa-file text-5xl mb-4 mt-4"
+              style="color: #b3b259"
+            ></i>
+            <span class="font-semibold hover:no-underline"
+              >Users Log</span
+            >
+          </div>
+        </a>
+      </div>
+      {% endif %}
     </div>
 
     <script>
