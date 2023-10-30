@@ -128,14 +128,12 @@ def criminal_report():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-
     folder_name = request.form.get('folder_name')
     if folder_name is None:
         return "Folder created successfully."
     folder_name = folder_name.replace('/', '_')
 
     # Retrieve data from the form
-    folder_name = request.form.get('folder_name').replace('/', '_')
     fir_no = request.form.get('fir_no')
     fir_date = request.form.get('fir_date')
     incident_date = request.form.get('incident_date')
@@ -235,7 +233,7 @@ def submit():
         df_imei.to_excel(imei_file_path, index=False)
 
         # return render_template('crime_report.html')
-        return f"Form submitted successfully. Folder Name: {folder_display_name}"
+        return render_template('home.html', folder_display_name=folder_display_name, district=district, crime_category=crime_type)
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
@@ -330,11 +328,9 @@ def open_file(folder, file):
     mime_type, _ = mimetypes.guess_type(file_path)
     return send_file(file_path, mimetype=mime_type)
 
-
-# @app.route('/folders/<folder>')
-# def open_folder(folder):
-#     # Perform any necessary actions to handle the folder click event
-#     return f"Opening folder: {folder}"
+@app.route('/search', methods=['POST', 'GET'])
+def search():
+    return render_template('search.html')
 
 
 if __name__ == '__main__':

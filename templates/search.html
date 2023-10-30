@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CyberrCon</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
-    />
     <link
       rel="shortcut icon"
       href="static/Image/Uttarakhand_Police_Logo.png"
       type="image/x-icon"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+    />
     <script
       src="https://kit.fontawesome.com/7bda016311.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       .navbar {
         position: fixed;
@@ -42,7 +44,7 @@
   </head>
   <body class="bg-blue-800">
     <!-- Navbar -->
-    <div class="bg-gray-800 text-white p-4 z-10">
+    <div class="bg-gray-800 text-white p-4">
       <div class="flex items-center justify-between">
         <!-- Left Section (Logo) -->
         <div class="flex items-center">
@@ -63,7 +65,6 @@
       </div>
     </div>
 
-    <!-- Vertical Navbar with full screen height -->
     <div class="navbar">
       <div class="flex items-center p-4">
         <img
@@ -103,7 +104,7 @@
             Add Criminal Profile</a
           >
         </li>
-        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
+        <li class="custom-button border-solid border-b border-white p-3 hover:bg-gray-700">
           <a href="{{ url_for('search') }}"
             ><i
               class="fa-solid fa-magnifying-glass mr-4 ml-0.5"
@@ -112,9 +113,7 @@
             Search Database</a
           >
         </li>
-        <li
-          class="custom-button border-solid border-b border-white p-3 hover:bg-gray-700"
-        >
+        <li class="border-solid border-b border-white p-3 hover:bg-gray-700">
           <a href="{{ url_for('folders') }}"
             ><i
               class="fa-solid fa-folder mr-4 ml-0.5"
@@ -140,68 +139,7 @@
     </div>
 
     <div class="content">
-      <div class="w-full mx-auto p-5 bg-blue-800 rounded ml-4">
-        <form action="/folders" method="GET" class="mb-4">
-          <div class="flex w-full items-end justify-end px-4">
-            <input
-              type="text"
-              name="search"
-              placeholder="Search folders: XX/YY"
-              class="py-2 px-3 rounded"
-              autocomplete="off"
-            />
-            <button
-              type="submit"
-              class="px-4 py-2 ml-2 bg-gray-800 text-white rounded hover:bg-gray-700"
-            >
-              <i
-                class="fa-solid fa-magnifying-glass"
-                style="color: #ffffff"
-              ></i>
-            </button>
-          </div>
-        </form>
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 p-4"
-        >
-          {% if folders %} {% for folder in folders %}
-          <div
-            class="bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden hover:bg-opacity-100 text-white hover:text-black"
-          >
-            <a href="/folders/{{ folder.replace('/', '_') }}" class="block p-4">
-              <div class="flex flex-col items-center">
-                <i
-                  class="fa-solid fa-folder-closed text-5xl mb-4 mt-4"
-                  style="color: #b3b259"
-                ></i>
-                <span class="font-semibold hover:no-underline"
-                  >{{ folder.replace('_', '/') }}</span
-                >
-              </div>
-            </a>
-          </div>
-          {% endfor %} {% else %}
-          <div class="flex items-center justify-center w-full">
-            <p class="text-red-500 font-semibold text-2xl">
-              No folders found<i
-                class="fa-solid fa-circle-exclamation ml-2"
-                style="color: #ff4242"
-              ></i>
-            </p>
-          </div>
-          {% endif %}
-        </div>
-      </div>
+
     </div>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const button = document.querySelector(".custom-button");
-
-        button.addEventListener("click", function () {
-          button.classList.toggle("clicked");
-        });
-      });
-    </script>
   </body>
 </html>
