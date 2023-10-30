@@ -7,6 +7,8 @@ import mimetypes
 from urllib.parse import quote, unquote
 import plotly.express as px
 import pandas as pd
+from werkzeug.utils import secure_filename
+import shutil
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # Replace with a secret key for sessions
@@ -159,8 +161,7 @@ def submit():
     crypto_account_number = request.form.get('crypto_account_number')
     crypto_account_name = request.form.get('crypto_account_name')
     description = request.form.get('description')
-    suspect_upload = request.form.get('suspect_upload')
-    # Add more form fields as needed
+    suspect_upload = request.files.get('suspect_upload')
 
     # Replace the underscore with a slash for display purposes
     folder_display_name = folder_name.replace('_', '/')
@@ -172,6 +173,12 @@ def submit():
         # Create the folder if it doesn't exist
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
+
+        # Save the uploaded file with the original filename
+        if suspect_upload:
+            filename = suspect_upload.filename
+            file_path = os.path.join(folder_path, filename)
+            suspect_upload.save(file_path)
 
         # Create a file inside the folder and write the input data to it
         file_path = os.path.join(folder_path, 'data.txt')
@@ -204,7 +211,8 @@ def submit():
             file.write(f"Crypto Account Name: {crypto_account_name}\n")
             file.write("\nADDITIONAL DETAILS:-\n")
             file.write(f"Description : {description}\n")
-            file.write(f"suspect_upload : {suspect_upload}\n")
+            # Save the file path in the data.txt file
+            file.write(f"suspect_upload : {file_path}\n")
 
         # Create a DataFrame for each field
         phone_data = {
@@ -328,7 +336,8 @@ def open_file(folder, file):
     mime_type, _ = mimetypes.guess_type(file_path)
     return send_file(file_path, mimetype=mime_type)
 
-@app.route('/search', methods=['POST', 'GET'])
+
+@app.route('/search', methods=['POST', 'GE'])
 def search():
     return render_template('search.html')
 

@@ -1,0 +1,32 @@
+FIR Number: 000002
+FIR Date: 2023-10-30
+Incident Date: 2023-10-29
+Incident Time: 14:05:17
+State / Territory: Uttarakhand
+District : Nainital
+Police station : Haldwani
+
+SUSPECT DETAILS:-
+Suspect Name: Akshat Bhardwaj
+Suspect Alias Name: 
+Suspect Phone Number: 09528121505
+Suspect IMEI Number: 892477638529565354
+Crime Category: malware
+Crime sub-Category: malware
+Crime Place: Home
+Crime State: Uttarakhand
+
+BANKING DETAILS:-
+Bank Name: Bank of America
+Bank IFSC Number: BNKAMER
+Bank Branch: Los Angeles
+Bank City: Rudrapur
+Bank State: Uttarakhand
+Account Number: 86546742376627
+Account Holder's Name: Ayush Tikroula
+Crypto Account Number: 
+Crypto Account Name: 
+
+ADDITIONAL DETAILS:-
+Description : 
+suspect_upload : 
