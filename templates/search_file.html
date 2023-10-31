@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 p-8">
+
+    <div class="container mx-auto bg-white p-8 rounded shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">Search Suspect</h1>
+
+        <form method="post" action="/database" class="mb-4">
+            <div class="flex items-center">
+                <input type="text" name="number" class="p-2 border rounded-l focus:outline-none" placeholder="Search by suspect name or FIR number">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">
+                    Search
+                </button>
+            </div>
+        </form>
+
+        <table class="min-w-full border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="border bg-gray-100 p-2">Suspect Name</th>
+                    <th class="border bg-gray-100 p-2">FIR Number</th>
+                    <th class="border bg-gray-100 p-2">FIR Date</th>
+                    <th class="border bg-gray-100 p-2">Incident Date</th>
+                    <th class="border bg-gray-100 p-2">Incident Time</th>
+                    <th class="border bg-gray-100 p-2">State</th>
+                    <th class="border bg-gray-100 p-2">District</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in search_results %}
+                <tr>
+                    <td class="border p-2">{{ result[0] }}</td>
+                    <td class="border p-2">{{ result[1] }}</td>
+                    <td class="border p-2">{{ result[2] }}</td>
+                    <td class="border p-2">{{ result[3] }}</td>
+                    <td class="border p-2">{{ result[4] }}</td>
+                    <td class="border p-2">{{ result[5] }}</td>
+                    <td class="border p-2">{{ result[6] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>

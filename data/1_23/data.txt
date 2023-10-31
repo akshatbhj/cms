@@ -1,2 +1,32 @@
-FIR Number: 
-Suspect Name: 
+FIR Number: 00000001
+FIR Date: 2023-10-31
+Incident Date: 2023-10-30
+Incident Time: 12:12:05
+State / Territory: Uttarakhand
+District: Uttarkashi
+Police station: Barkot
+
+SUSPECT DETAILS:-
+Suspect Name: Ayush Kumar
+Suspect Alias Name: AK
+Suspect Phone Number: 7906604523
+Suspect IMEI Number: 21223242397348
+Crime Category: phishing
+Crime sub-Category: phishing
+Crime Place: Haridwar
+Crime State: Uttarakhand
+
+BANKING DETAILS:-
+Bank Name: 
+Bank IFSC Number: 
+Bank Branch: 
+Bank City: 
+Bank State: 
+Account Number: 89349234932
+Account Holder's Name: 
+Crypto Account Number: 
+Crypto Account Name: 
+
+ADDITIONAL DETAILS:-
+Description : 
+suspect_upload : IMG_20230725_105138311.jpg

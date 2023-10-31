@@ -4,8 +4,9 @@ import csv
 import os
 import re
 from urllib.parse import quote, unquote
-import plotly.express as px
 import pandas as pd
+from difflib import SequenceMatcher
+from PyPDF2 import PdfReader
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # Replace with a secret key for sessions
@@ -37,6 +38,10 @@ log_file_path = 'user_logins.txt'
 with open(log_file_path, 'a') as log_file:
     pass  # This will create the file if it doesn't exist
 
+#searching
+
+
+
 # Function to log user logins
 
 
@@ -66,11 +71,10 @@ def index():
         # Add more data entries as needed
     ]
 
-    # Generate the chart HTML
-    chart_html = generate_crime_category_chart(fir_data)
+
 
     # User is logged in, you can render the main page
-    return render_template('index.html', username=username, chart_html=chart_html)
+    return render_template('index.html', username=username)
 
 
 # Login Route
@@ -196,8 +200,8 @@ def submit():
             file.write(f"Incident Date: {incident_date}\n")
             file.write(f"Incident Time: {incident_time}\n")
             file.write(f"State / Territory: {state_territory}\n")
-            file.write(f"District : {district}\n")
-            file.write(f"Police station : {police_station}\n")
+            file.write(f"District: {district}\n")
+            file.write(f"Police station: {police_station}\n")
             file.write("\nSUSPECT DETAILS:-\n")
             file.write(f"Suspect Name: {suspect_name}\n")
             file.write(f"Suspect Alias Name: {suspect_name_alias}\n")
@@ -331,15 +335,64 @@ def folder_contents(folder_name):
     return render_template('folder_contents.html', folder_name=folder_name, folder_data=folder_data)
 
 
-def generate_crime_category_chart(data):
-    # Create a DataFrame from the data
-    df = pd.DataFrame(data)
+# Function to search for a suspect based on phone number or IMEI number in a specific file
 
-    # Create a bar chart using Plotly Express
-    fig = px.bar(df, x="Crime Category", title="Crime Categories")
+def parse_details_from_line(line):
+    data = line.strip().split(': ')
+    if len(data) == 2:
+        return data[0], data[1]
+    return None, None
 
-    return fig.to_html(full_html=False)
+def search_suspect_in_file(file_path, search_value):
+    results = set()
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
 
+    suspect_name, fir_number, fir_date, incident_date, incident_time, state  = None, None, None, None, None, None
+    district = None
+    for line in lines:
+        key, value = parse_details_from_line(line)
+        if key and value:
+            if key == 'Suspect Name':
+                suspect_name = value
+            elif key == 'FIR Number':
+                fir_number = value
+            elif key == 'FIR Date':
+                fir_date = value
+            elif key == 'Incident Date':
+                incident_date = value
+            elif key == 'Incident Time':
+                incident_time = value
+            elif key == 'State / Territory':
+                state = value
+            elif key == 'District':
+                district = value
+        
+        if search_value in line:
+            if all([suspect_name, fir_number, fir_date, incident_date, incident_time, state, district ]):
+                results.add((suspect_name, fir_number, fir_date, incident_date, incident_time, state, district))
+
+    return results
+
+def search_suspect_in_folders(root_folder, search_value):
+    results = []
+    for subdir, dirs, files in os.walk(root_folder):
+        for file in files:
+            if file.endswith('.txt'):
+                file_path = os.path.join(subdir, file)
+                results.extend(search_suspect_in_file(file_path, search_value))
+    return results
+
+# Flask route
+@app.route('/database', methods=['GET', 'POST'])
+def database():
+    search_results = []
+    if request.method == 'POST':
+        search_value = request.form['number']
+        root_folder = 'data'
+        search_results = search_suspect_in_folders(root_folder, search_value)
+        print(search_results)
+    return render_template('search_file.html', search_results=search_results)
 
 if __name__ == '__main__':
     app.run(debug=True)
