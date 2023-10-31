@@ -8,7 +8,6 @@ from urllib.parse import quote, unquote
 import plotly.express as px
 import pandas as pd
 from werkzeug.utils import secure_filename
-import shutil
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # Replace with a secret key for sessions
@@ -126,8 +125,6 @@ def criminal_report():
     return render_template('criminal_report.html')
 
 # Submit Request
-
-
 @app.route('/submit', methods=['POST'])
 def submit():
     folder_name = request.form.get('folder_name')
@@ -337,7 +334,7 @@ def open_file(folder, file):
     return send_file(file_path, mimetype=mime_type)
 
 
-@app.route('/search', methods=['POST', 'GE'])
+@app.route('/search', methods=['POST', 'GET'])
 def search():
     return render_template('search.html')
 
