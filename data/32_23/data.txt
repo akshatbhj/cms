@@ -1,16 +1,16 @@
 FIR Number: 000002
 FIR Date: 2023-10-30
-Incident Date: 2023-10-29
-Incident Time: 14:05:17
-State / Territory: Uttarakhand
-District : Nainital
-Police station : Haldwani
+Incident Date:2023-10-29
+Incident Time:14:05:17
+State / Territory:Uttarakhand
+District:Nainital
+Police station:Haldwani
 
 SUSPECT DETAILS:-
-Suspect Name: Akshat Bhardwaj
+Suspect Name:Akshat Bhardwaj
 Suspect Alias Name: 
-Suspect Phone Number: 09528121505
-Suspect IMEI Number: 892477638529565354
+Suspect Phone Number:09528121505
+Suspect IMEI Number:892477638529565354
 Crime Category: malware
 Crime sub-Category: malware
 Crime Place: Home
