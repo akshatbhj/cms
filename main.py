@@ -7,6 +7,7 @@ from urllib.parse import quote, unquote
 import pandas as pd
 from difflib import SequenceMatcher
 from PyPDF2 import PdfReader
+from PIL import Image
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # Replace with a secret key for sessions
@@ -141,6 +142,28 @@ def criminal_report():
     return render_template('criminal_report.html')
 
 # Submit Request
+def upload_file():
+    if request.method == 'POST':
+        # Get the uploaded file
+        uploaded_file = request.files['file']
+
+        if uploaded_file:
+            # Save the file to a temporary location
+            file_path = "path/to/your/uploads/" + uploaded_file.filename
+            uploaded_file.save(file_path)
+
+            # Open the image file
+            image = Image.open(file_path)
+
+            # Process the image or save it to a different location
+            processed_file_path = "path/to/your/processed/images/" + uploaded_file.filename
+            image.save(processed_file_path)
+
+            # Optionally, you can remove the temporary uploaded file
+            os.remove(file_path)
+
+            return "File uploaded and processed successfully!"
+
 
 
 @app.route('/submit', methods=['POST'])
@@ -195,35 +218,35 @@ def submit():
         # Create a file inside the folder and write the input data to it
         file_path = os.path.join(folder_path, 'data.txt')
         with open(file_path, 'w') as file:
-            file.write(f"FIR Number: {fir_no}\n")
-            file.write(f"FIR Date: {fir_date}\n")
-            file.write(f"Incident Date: {incident_date}\n")
-            file.write(f"Incident Time: {incident_time}\n")
-            file.write(f"State / Territory: {state_territory}\n")
+            file.write(f"FIR Number:{fir_no}\n")
+            file.write(f"FIR Date:{fir_date}\n")
+            file.write(f"Incident Date:{incident_date}\n")
+            file.write(f"Incident Time:{incident_time}\n")
+            file.write(f"State / Territory:{state_territory}\n")
             file.write(f"District: {district}\n")
-            file.write(f"Police station: {police_station}\n")
+            file.write(f"Police station:{police_station}\n")
             file.write("\nSUSPECT DETAILS:-\n")
-            file.write(f"Suspect Name: {suspect_name}\n")
-            file.write(f"Suspect Alias Name: {suspect_name_alias}\n")
-            file.write(f"Suspect Phone Number: {suspect_phone}\n")
-            file.write(f"Suspect IMEI Number: {suspect_imei}\n")
-            file.write(f"Crime Category: {crime_type}\n")
-            file.write(f"Crime sub-Category: {crime_sub_type}\n")
-            file.write(f"Crime Place: {crime_place}\n")
-            file.write(f"Crime State: {crime_state}\n")
+            file.write(f"Suspect Name:{suspect_name}\n")
+            file.write(f"Suspect Alias Name:{suspect_name_alias}\n")
+            file.write(f"Suspect Phone Number:{suspect_phone}\n")
+            file.write(f"Suspect IMEI Number:{suspect_imei}\n")
+            file.write(f"Crime Category:{crime_type}\n")
+            file.write(f"Crime sub-Category:{crime_sub_type}\n")
+            file.write(f"Crime Place:{crime_place}\n")
+            file.write(f"Crime State:{crime_state}\n")
             file.write("\nBANKING DETAILS:-\n")
-            file.write(f"Bank Name: {suspect_bank_name}\n")
-            file.write(f"Bank IFSC Number: {suspect_bank_ifsc}\n")
-            file.write(f"Bank Branch: {bank_branch}\n")
-            file.write(f"Bank City: {bank_city}\n")
+            file.write(f"Bank Name:{suspect_bank_name}\n")
+            file.write(f"Bank IFSC Number:{suspect_bank_ifsc}\n")
+            file.write(f"Bank Branch:{bank_branch}\n")
+            file.write(f"Bank City:{bank_city}\n")
             file.write(f"Bank State: {bank_state}\n")
-            file.write(f"Account Number: {account_number}\n")
-            file.write(f"Account Holder's Name: {account_name}\n")
-            file.write(f"Crypto Account Number: {crypto_account_number}\n")
-            file.write(f"Crypto Account Name: {crypto_account_name}\n")
+            file.write(f"Account Number:{account_number}\n")
+            file.write(f"Account Holder's Name:{account_name}\n")
+            file.write(f"Crypto Account Number:{crypto_account_number}\n")
+            file.write(f"Crypto Account Name:{crypto_account_name}\n")
             file.write("\nADDITIONAL DETAILS:-\n")
-            file.write(f"Description : {description}\n")
-            file.write(f"suspect_upload : {suspect_upload}\n")
+            file.write(f"Description:{description}\n")
+            file.write(f"suspect_upload:{suspect_upload}\n")
 
         # Create a DataFrame for each field
         phone_data = {

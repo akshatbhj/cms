@@ -1,0 +1,32 @@
+FIR Number: 00000002
+FIR Date: 0023-12-01
+Incident Date: 2022-01-01
+Incident Time: 12:12:20
+State / Territory: Bihar
+District: Uttarkashi
+Police station: Kotwali Uttarkashi
+
+SUSPECT DETAILS:-
+Suspect Name: Akshat
+Suspect Alias Name: 
+Suspect Phone Number: 7906604523
+Suspect IMEI Number: 
+Crime Category: hacking
+Crime sub-Category: phishing
+Crime Place: Jharkhand
+Crime State: Uttarakhand
+
+BANKING DETAILS:-
+Bank Name: Bnak of Baroda
+Bank IFSC Number: 
+Bank Branch: 
+Bank City: 
+Bank State: 
+Account Number: 587493792347947
+Account Holder's Name: Amardeep
+Crypto Account Number: 
+Crypto Account Name: 
+
+ADDITIONAL DETAILS:-
+Description : 
+suspect_upload : 
